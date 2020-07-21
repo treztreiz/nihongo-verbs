@@ -5,8 +5,8 @@
 }
 
 #verb {
-    font-size: 50px;
-    font-weight: bold;
+    font-size: 25px;
+    line-height: 5px;
 }
 
 #score {
@@ -35,7 +35,15 @@
 }
 
 #kanji {
-    font-size: 70px;
+    font-size: 90px;
+}
+
+#conjugaison {
+    font-size: 25px;
+}
+
+#verb-container {
+    margin-top: 50px;
 }
 
 /* STYLE _________ _________ _________ _________ _________ _________ _________ _________ _________ */

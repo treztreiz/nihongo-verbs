@@ -1,4 +1,6 @@
-#verb, #conjugaison {
+@import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Nunito&display=swap');
+
+#verb, #conjugaison, #kanji {
     text-align: center;
 }
 
@@ -7,15 +9,63 @@
     font-weight: bold;
 }
 
+#score {
+    text-align: right;
+    padding: 30px 0;
+    font-size: 20px;
+}
+
+#score > div {
+    display: inline-block;
+    text-align: center;
+    margin-left: 10px;
+}
+
 #success, #verb[data-status="success"] {
-    color: green
+    color: #00c384
 }
 
 #error, #verb[data-status="error"] {
-    color: red
+    color: #fd488b
 }
 
 #success, #error {
     font-weight: bold;
+    font-size: 25px;
 }
 
+#kanji {
+    font-size: 70px;
+}
+
+/* STYLE _________ _________ _________ _________ _________ _________ _________ _________ _________ */
+
+.japanese {
+    font-family: 'Kosugi Maru', sans-serif;
+}
+
+body {
+    background: #ececec;
+    font-family: 'Nunito', sans-serif;
+}
+
+nav {
+    background: #4e1840;
+}
+
+nav .logo {
+    color : #d277ba;
+}
+
+#form {
+    margin-top: 50px;
+}
+
+#form input[type="text"] {
+    background-color: white;
+    border: 0;
+    box-shadow: 0 24px 38px 3px rgba(0,0,0,0.04), 0 9px 46px 8px rgba(0,0,0,0.02), 0 11px 15px -7px rgba(0,0,0,0.02);
+    border-radius: 30px;
+    padding-left: 20px;
+    font-weight: bold;
+}

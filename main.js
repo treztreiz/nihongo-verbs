@@ -7,6 +7,7 @@ class Quiz {
         this.verbs = verbs;
         this.inputForm = $('#form'), this.input = this.inputForm.find('input');
         this.verbEl = $('#verb');
+        this.kanjiEl = $('#kanji');
         this.conjugaisonEL = $('#conjugaison');
         this.successEl = $('#success');
         this.errorEl = $('#error');
@@ -36,6 +37,7 @@ class Quiz {
     }
 
     displayVerb(result = false) {
+        this.kanjiEl.text( this.verb.kanji );
         this.verbEl.text( result ? this.conjugaison.value : this.verb.dictionnary );
         this.conjugaisonEL.text( this.conjugaison.label );
     }

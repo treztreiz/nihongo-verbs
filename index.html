@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nihongo Verbs</title>
+    <title>Nihongo Verbs Training</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="main.css">
@@ -11,15 +11,23 @@
 </head>
 <body>
 
+    <nav>
+        <div class="nav-wrapper">
+            <div class="container">
+                <a href="#" class="brand-logo"><span class="japanese logo">動詞</span> Nihongo verbs training</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
 
         <div class="row">
-            <h1>Nihongo verbs</h1>
-        </div>
-
-        <div class="row">
-            <div class="col s12">Score : <span id="success">0</span> <span id="error">0</span></div>
+            <div id="score" class="col s12">
+                <div><span class="japanese">勝</span><div id="success">0</div></div>
+                <div><span class="japanese">負</span><div id="error">0</div></div>
+            </div>
             <div class="col s12">
+                <div id="kanji" class="japanese"></div>
                 <div id="verb" data-status></div>
                 <div id="conjugaison"></div>
             </div>

@@ -47,6 +47,22 @@
     text-align: center;
 }
 
+#conjugaison > span {
+    padding: 5px 15px;
+    background: white;
+    display: inline-block;
+}
+
+#conjugaison #tense {
+    background: #4e1840;
+    color: white;
+    border-radius: 5px 0 0 5px;
+}
+
+#conjugaison #formality {
+    border-radius: 0 5px 5px 0;
+}
+
 /* STYLE _________ _________ _________ _________ _________ _________ _________ _________ _________ */
 
 .japanese {

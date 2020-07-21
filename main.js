@@ -1,7 +1,7 @@
 class Quiz {
 
     constructor(verbs) {
-        
+
         this.score = { success : 0, error : 0 };
         this.verb = null;
         this.conjugaison = null;
@@ -11,12 +11,13 @@ class Quiz {
         this.typeEl = $('#type');
         this.verbEl = $('#verb');
         this.kanjiEl = $('#kanji');
-        this.conjugaisonEL = $('#conjugaison');
+        this.tenseEl = $('#tense');
+        this.formalityEL = $('#formality');
         this.successEl = $('#success');
         this.errorEl = $('#error');
 
         this.initInput();
-        this.delay = 1000;
+        this.delay = 1500;
         this.disabled = false;
 
         this.morpho = new(JsLingua.getService("Morpho", 'jpn'))();
@@ -101,8 +102,8 @@ class Quiz {
     displayVerb(result = false) {
         this.kanjiEl.text( this.verb.kanji );
         this.verbEl.text( result ? this.conjugaison : this.verb.kana );
-        var conjugaison = this.tense + ' - ' + this.formality;
-        this.conjugaisonEL.text( conjugaison.toLowerCase() );
+        this.tenseEl.text( this.tense.toLowerCase() );
+        this.formalityEL.text( this.formality );
         this.typeEl.text(this.type);
     }
 

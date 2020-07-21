@@ -1,0 +1,21 @@
+#verb, #conjugaison {
+    text-align: center;
+}
+
+#verb {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+#success, #verb[data-status="success"] {
+    color: green
+}
+
+#error, #verb[data-status="error"] {
+    color: red
+}
+
+#success, #error {
+    font-weight: bold;
+}
+

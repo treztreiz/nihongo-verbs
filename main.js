@@ -1,16 +1,20 @@
 class Quiz {
 
     constructor(verbs) {
+        
         this.score = { success : 0, error : 0 };
         this.verb = null;
         this.conjugaison = null;
         this.verbs = verbs;
         this.inputForm = $('#form'), this.input = this.inputForm.find('input');
+
+        this.typeEl = $('#type');
         this.verbEl = $('#verb');
         this.kanjiEl = $('#kanji');
         this.conjugaisonEL = $('#conjugaison');
         this.successEl = $('#success');
         this.errorEl = $('#error');
+
         this.initInput();
         this.delay = 1000;
         this.disabled = false;
@@ -54,14 +58,15 @@ class Quiz {
     }
 
     generateVerb() {
+
         var verb = this.verbs[ Math.floor( Math.random() * this.verbs.length ) ];
-        //if( verb === this.verb ) return this.generateVerb();
+        if( verb === this.verb ) return this.generateVerb();
         this.verb = verb;
 
+        // BUG TYPE CORRECTION
         switch(verb.romaji) {
             case 'okiru' : this.type = 'ichidan'; break;
             default : this.type = this.morpho.getVerbType(verb.kana);
-
         }
 
         var keys = Object.keys(this.forms);
@@ -75,14 +80,30 @@ class Quiz {
         var params = { vtype: this.type, formality : this.formality, ...conj };
         this.conjugaison = this.morpho.conjugate(verb.kana, params);
 
-        console.log( wanakana.toKana(this.conjugaison) );
+        if( this.formality == 'polite' ) this.convertKanji();
+        else console.log( this.conjugaison );
         
+    }
+
+    convertKanji() {
+        var self = this;
+        var kuroshiro = new Kuroshiro();
+        kuroshiro.init(new KuromojiAnalyzer())
+        .then(function () {
+            return kuroshiro.convert(self.conjugaison, { to: "hiragana" });
+        })
+        .then(function(result){
+            self.conjugaison =  result;
+            console.log( self.conjugaison );
+        });
     }
 
     displayVerb(result = false) {
         this.kanjiEl.text( this.verb.kanji );
         this.verbEl.text( result ? this.conjugaison : this.verb.kana );
-        this.conjugaisonEL.text( this.type + ' - ' + this.tense + ' - ' + this.formality );
+        var conjugaison = this.tense + ' - ' + this.formality;
+        this.conjugaisonEL.text( conjugaison.toLowerCase() );
+        this.typeEl.text(this.type);
     }
 
     checkAnswer() {
@@ -129,7 +150,8 @@ $(function() {
         new Verb('買う', 'kau'),
         new Verb('行く', 'iku'),
         new Verb('起きる', 'okiru'),
-        new Verb('来る','kuru')
+        new Verb('来る','kuru'),
+        new Verb('集める','atsumeru')
     ]
 
     var quiz = new Quiz(verbs);

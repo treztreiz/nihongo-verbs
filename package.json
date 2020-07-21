@@ -1,0 +1,23 @@
+{
+  "name": "nihongo-verbs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/treztreiz/nihongo-verbs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/treztreiz/nihongo-verbs/issues"
+  },
+  "homepage": "https://github.com/treztreiz/nihongo-verbs#readme",
+  "dependencies": {
+    "kuroshiro": "^1.1.2",
+    "kuroshiro-analyzer-kuromoji": "^1.1.0"
+  }
+}

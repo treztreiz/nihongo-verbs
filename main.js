@@ -69,7 +69,8 @@ class Quiz {
 
 class Verb {
 
-    constructor(dictionnary, negative, polite, conditional, imperative, volitional) {
+    constructor(kanji, dictionnary, negative, polite, conditional, imperative, volitional) {
+        this.kanji = kanji;
         this.dictionnary = dictionnary;
         this.forms = [
             { label : 'negative',       value : negative },
@@ -85,10 +86,10 @@ class Verb {
 $(function() {
 
     var verbs = [
-        new Verb('miru', 'minai', 'mimasu', 'mireba', 'miro', 'miyou'),
-        new Verb('kau', 'kawanai', 'kaimasu', 'kaeba', 'kae', 'kaou'),
-        new Verb('iku', 'ikanai', 'ikimasu', 'ikeba', 'ike', 'ikou'),
-        new Verb('okiru', 'okinai', 'okimasu', 'okireba', 'okiro', 'okiyou'),
+        new Verb('見る', 'miru', 'minai', 'mimasu', 'mireba', 'miro', 'miyou'),
+        new Verb('買う', 'kau', 'kawanai', 'kaimasu', 'kaeba', 'kae', 'kaou'),
+        new Verb('行く', 'iku', 'ikanai', 'ikimasu', 'ikeba', 'ike', 'ikou'),
+        new Verb('起きる', 'okiru', 'okinai', 'okimasu', 'okireba', 'okiro', 'okiyou'),
     ]
 
     var quiz = new Quiz(verbs);

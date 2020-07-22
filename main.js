@@ -15,6 +15,7 @@ class Quiz {
         this.formalityEL = $('#formality');
         this.successEl = $('#success');
         this.errorEl = $('#error');
+        this.studyEl = $('#study');
 
         this.initInput();
         this.delay = 1500;
@@ -59,15 +60,15 @@ class Quiz {
     }
 
     generateVerb() {
-
+        
         var verb = this.verbs[ Math.floor( Math.random() * this.verbs.length ) ];
-        if( verb === this.verb ) return this.generateVerb();
+        //if( verb === this.verb ) return this.generateVerb();
         this.verb = verb;
 
         // BUG TYPE CORRECTION
         switch(verb.romaji) {
             case 'okiru' : this.type = 'ichidan'; break;
-            default : this.type = this.morpho.getVerbType(verb.kana);
+            default : this.type = this.morpho.getVerbType(verb.kanji);
         }
 
         var keys = Object.keys(this.forms);
@@ -79,15 +80,15 @@ class Quiz {
         key == 'prov' ? this.formality = 'plain' : this.formality = formalities[ Math.floor( Math.random() * formalities.length ) ];
 
         var params = { vtype: this.type, formality : this.formality, ...conj };
-        this.conjugaison = this.morpho.conjugate(verb.kana, params);
+        this.conjugaison = this.morpho.conjugate(verb.kanji, params);
 
-        if( this.formality == 'polite' ) this.convertKanji();
-        else console.log( this.conjugaison );
+        this.convertKanji();
         
     }
 
     convertKanji() {
         var self = this;
+        this.disabled = true;
         var kuroshiro = new Kuroshiro();
         kuroshiro.init(new KuromojiAnalyzer())
         .then(function () {
@@ -95,7 +96,8 @@ class Quiz {
         })
         .then(function(result){
             self.conjugaison =  result;
-            console.log( self.conjugaison );
+            self.disabled = false;
+            //console.log( self.conjugaison );
         });
     }
 
@@ -103,14 +105,16 @@ class Quiz {
         this.kanjiEl.text( this.verb.kanji );
         this.verbEl.text( result ? this.conjugaison : this.verb.kana );
         this.tenseEl.text( this.tense.toLowerCase() );
-        this.formalityEL.text( this.formality );
-        this.typeEl.text(this.type);
+        this.formalityEL.text( this.formality + ' :' );
+        this.typeEl.text(this.type + ' verb');
+        this.studyEl.attr('href', 'http://japaneseverbconjugator.com/VerbDetails.asp?txtVerb=' + this.verb.kanji + '&Go=Conjugate');
     }
 
     checkAnswer() {
         var self = this;
         var answer = this.input.val();
-        answer == this.conjugaison ? this.success() : this.error();
+        var regex = new RegExp('^' + this.conjugaison.replace(/\//g, '|') + '$');
+        regex.exec(answer) !== null ? this.success() : this.error();
         this.input.val("");
         this.displayVerb(true);
         this.disabled = true;
@@ -146,17 +150,31 @@ class Verb {
 
 $(function() {
 
+    M.AutoInit();
+
     var verbs = [
         new Verb('見る', 'miru'),
         new Verb('買う', 'kau'),
         new Verb('行く', 'iku'),
         new Verb('起きる', 'okiru'),
         new Verb('来る','kuru'),
-        new Verb('集める','atsumeru')
-    ]
+        new Verb('集める','atsumeru'),
+        new Verb('食べる', 'taberu'),
+        new Verb('飲む', 'nomu')
+    ];
 
     var quiz = new Quiz(verbs);
 
     quiz.generate();
+
+    $('#settings-furigana').change(function(){
+        var furigana = $('#verb');
+        $(this).prop('checked') ? furigana.addClass('disabled') : furigana.removeClass('disabled'); 
+    });
+
+    $('#settings-type').change(function(){
+        var type = $('#type');
+        $(this).prop('checked') ? type.addClass('disabled') : type.removeClass('disabled'); 
+    });
 
 });

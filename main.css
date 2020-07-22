@@ -5,8 +5,9 @@
 }
 
 #verb {
-    font-size: 25px;
+    font-size: 23px;
     line-height: 5px;
+    color: #464646;
 }
 
 #score {
@@ -36,10 +37,16 @@
 
 #kanji {
     font-size: 90px;
+    line-height: 110px;
+}
+
+#type {
+    margin-top: -10px;
 }
 
 #conjugaison {
     font-size: 25px;
+    margin-top: 50px;
 }
 
 #verb-container {
@@ -63,10 +70,27 @@
     border-radius: 0 5px 5px 0;
 }
 
+#verb.disabled:not([data-status]), #type.disabled {
+    opacity : 0;
+}
+
+.btn.btn-flat:hover{
+    background : #4e1840;
+    color: white;
+}
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    border: 2px solid #4e1840;
+    background-color: #4e1840;
+}
+
 /* STYLE _________ _________ _________ _________ _________ _________ _________ _________ _________ */
 
 .japanese {
     font-family: 'Kosugi Maru', sans-serif;
+}
+
+#menu {
+    padding: 30px 0;
 }
 
 body {
@@ -82,9 +106,9 @@ nav .logo {
     color : #d277ba;
 }
 
-#form {
+/* #form {
     margin-top: 50px;
-}
+} */
 
 #form input[type="text"] {
     background-color: white;

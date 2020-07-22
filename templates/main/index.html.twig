@@ -41,6 +41,12 @@
                                 <span>Hide verb type</span>
                             </label>
                         </div>
+                        <div>
+                            <label>
+                                <input id="settings-definition" class="filled-in" type="checkbox" />
+                                <span>Hide definition</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -54,14 +60,19 @@
                 <div id="verb" data-status class="japanese"></div>
                 <div id="kanji" class="japanese"></div>
                 <div id="type"></div>
+                <div id="definition"></div>
                 <div id="conjugaison"><span id="pos"></span><span id="tense"></span><span id="formality"></span></div>
             </div>
         </div>
 
         <div class="row">
             <div class="col s12">
-                <form id="form"><input type="text" class="japanese" placeholder="answer"></form>
+                <form id="form"><input type="text" class="japanese" placeholder="answer"><button class="btn btn-flat">ok</button></form>
             </div>
+        </div>
+
+        <div class="row copyright">
+            <div class="col s12">StudioWuaro © {{ 'now'|date('Y') }}</div>
         </div>
 
     </div>

@@ -18,6 +18,7 @@ class Quiz {
         this.successEl = $('#success');
         this.errorEl = $('#error');
         this.studyEl = $('#study');
+        this.definitionEl = $('#definition');
 
         this.initInput();
         this.delay = 1500;
@@ -30,7 +31,7 @@ class Quiz {
         this.type = null;
 
         this.forms = this.morpho.getForms();
-        console.log(this.forms);
+        console.log( this.morpho.getForms() );
 
         delete this.forms['cond'];
         delete this.forms['caus'];
@@ -77,6 +78,8 @@ class Quiz {
         var conj = this.forms[ key ];
         this.tense = 'tense' in conj ? conj.tense : conj.mood;
 
+        if( this.tense == 'optative' ) this.tense = 'volitional';
+
         var formalities = ['plain', 'polite'];
         key == 'prov' ? this.formality = 'plain' : this.formality = formalities[ Math.floor( Math.random() * formalities.length ) ];
 
@@ -85,8 +88,21 @@ class Quiz {
         var params = { vtype: this.type, formality : this.formality, negated : this.negated, ...conj };
         this.conjugaison = this.morpho.conjugate(verb.kanji, params);
 
+        this.getDefinition();
         this.convertKanji();
         
+    }
+
+    getDefinition() {
+        var self = this;
+        self.definitionEl.text('');
+        $.post(Routing.generate('info', { verb: this.verb.kanji }), data => {
+            var definitions = data.data[0].senses[0].english_definitions;
+            for( var i = 0; i < definitions.length; i++) {
+                self.definitionEl.append(definitions[i]);
+                if( i < definitions.length - 1 ) self.definitionEl.append(', ');
+            }
+        }).fail( err => console.error(err) );
     }
 
     convertKanji() {
@@ -109,7 +125,9 @@ class Quiz {
         this.verbEl.text( result ? this.conjugaison : this.verb.kana );
         this.tenseEl.text( this.tense.toLowerCase() );
         this.posEl.text( this.negated ? 'negative' : 'positive' );
+        this.negated ? this.posEl.attr('data-status', 'neg') : this.posEl.attr('data-status', 'pos');
         this.formalityEL.text( this.formality );
+        this.formality == 'polite' ? this.formalityEL.attr('data-status', 'neg') : this.formalityEL.attr('data-status', 'pos');
         this.typeEl.text(this.type + ' verb');
         //this.studyEl.attr('href', 'http://japaneseverbconjugator.com/VerbDetails.asp?txtVerb=' + this.verb.kanji + '&Go=Conjugate');
         this.studyEl.attr('href', 'https://conjugueur.reverso.net/conjugaison-japonais-verbe-' + this.verb.kanji + '.html');
@@ -184,33 +202,9 @@ $(function() {
         $(this).prop('checked') ? type.addClass('disabled') : type.removeClass('disabled'); 
     });
 
-    $.post(Routing.generate('info', { verb: '買う' }), data => {
-        console.log(data);
-    }).fail( err => console.error(err) );
-
-    // const jisho = new window.JishoApi();
-    // jisho.searchForPhrase('日').then(result => {
-    //     console.log(result);
-    // });
-
-    // $.ajax({
-    //     type: 'GET',
-    //     crossDomain: true,
-    //     dataType: 'jsonp',
-    //     beforeSend: function(request) {
-    //         request.setRequestHeader("Set-Cookie", "Secure;SameSite=Strict");
-    //     },
-    //     url: 'https://jisho.org/api/v1/search/words?keyword=日',
-    //     success: function(jsondata){
-    //         console.log(jsondata);
-    //     },
-    //     error: function(err) {
-    //         console.log(err);
-    //     }
-    // });
-
-    // $.get('https://jisho.org/api/v1/search/words?keyword=日', function(data){
-    //     console.log(data);
-    // });
+    $('#settings-definition').change(function(){
+        var def = $('#definition');
+        $(this).prop('checked') ? def.addClass('disabled') : def.removeClass('disabled'); 
+    });
 
 });

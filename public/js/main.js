@@ -5,6 +5,7 @@ class Quiz {
         this.score = { success : 0, error : 0 };
         this.verb = null;
         this.conjugaison = null;
+        this.negated = false;
         this.verbs = verbs;
         this.inputForm = $('#form'), this.input = this.inputForm.find('input');
 
@@ -12,6 +13,7 @@ class Quiz {
         this.verbEl = $('#verb');
         this.kanjiEl = $('#kanji');
         this.tenseEl = $('#tense');
+        this.posEl = $('#pos');
         this.formalityEL = $('#formality');
         this.successEl = $('#success');
         this.errorEl = $('#error');
@@ -39,8 +41,6 @@ class Quiz {
         delete this.forms['past_cont'];
         delete this.forms['pres_cont'];
 
-        console.log( this.forms );
-
     }
 
     initInput() {
@@ -67,6 +67,7 @@ class Quiz {
 
         // BUG TYPE CORRECTION
         switch(verb.romaji) {
+            case 'dekakeru' :
             case 'okiru' : this.type = 'ichidan'; break;
             default : this.type = this.morpho.getVerbType(verb.kanji);
         }
@@ -74,12 +75,14 @@ class Quiz {
         var keys = Object.keys(this.forms);
         var key = keys[ Math.floor( Math.random() * keys.length ) ];
         var conj = this.forms[ key ];
-        this.tense = conj.desc;
+        this.tense = 'tense' in conj ? conj.tense : conj.mood;
 
         var formalities = ['plain', 'polite'];
         key == 'prov' ? this.formality = 'plain' : this.formality = formalities[ Math.floor( Math.random() * formalities.length ) ];
 
-        var params = { vtype: this.type, formality : this.formality, ...conj };
+        this.negated = key == 'vol' ? false : Math.floor( Math.random() * 2 );
+
+        var params = { vtype: this.type, formality : this.formality, negated : this.negated, ...conj };
         this.conjugaison = this.morpho.conjugate(verb.kanji, params);
 
         this.convertKanji();
@@ -97,7 +100,7 @@ class Quiz {
         .then(function(result){
             self.conjugaison =  result;
             self.disabled = false;
-            //console.log( self.conjugaison );
+            console.log( self.conjugaison );
         });
     }
 
@@ -105,9 +108,11 @@ class Quiz {
         this.kanjiEl.text( this.verb.kanji );
         this.verbEl.text( result ? this.conjugaison : this.verb.kana );
         this.tenseEl.text( this.tense.toLowerCase() );
-        this.formalityEL.text( this.formality + ' :' );
+        this.posEl.text( this.negated ? 'negative' : 'positive' );
+        this.formalityEL.text( this.formality );
         this.typeEl.text(this.type + ' verb');
-        this.studyEl.attr('href', 'http://japaneseverbconjugator.com/VerbDetails.asp?txtVerb=' + this.verb.kanji + '&Go=Conjugate');
+        //this.studyEl.attr('href', 'http://japaneseverbconjugator.com/VerbDetails.asp?txtVerb=' + this.verb.kanji + '&Go=Conjugate');
+        this.studyEl.attr('href', 'https://conjugueur.reverso.net/conjugaison-japonais-verbe-' + this.verb.kanji + '.html');
     }
 
     checkAnswer() {
@@ -160,7 +165,9 @@ $(function() {
         new Verb('来る','kuru'),
         new Verb('集める','atsumeru'),
         new Verb('食べる', 'taberu'),
-        new Verb('飲む', 'nomu')
+        new Verb('飲む', 'nomu'),
+        new Verb('出かける', 'dekakeru'),
+        new Verb('勉強する', 'benkyousuru')
     ];
 
     var quiz = new Quiz(verbs);
@@ -176,5 +183,34 @@ $(function() {
         var type = $('#type');
         $(this).prop('checked') ? type.addClass('disabled') : type.removeClass('disabled'); 
     });
+
+    $.post(Routing.generate('info', { verb: '買う' }), data => {
+        console.log(data);
+    }).fail( err => console.error(err) );
+
+    // const jisho = new window.JishoApi();
+    // jisho.searchForPhrase('日').then(result => {
+    //     console.log(result);
+    // });
+
+    // $.ajax({
+    //     type: 'GET',
+    //     crossDomain: true,
+    //     dataType: 'jsonp',
+    //     beforeSend: function(request) {
+    //         request.setRequestHeader("Set-Cookie", "Secure;SameSite=Strict");
+    //     },
+    //     url: 'https://jisho.org/api/v1/search/words?keyword=日',
+    //     success: function(jsondata){
+    //         console.log(jsondata);
+    //     },
+    //     error: function(err) {
+    //         console.log(err);
+    //     }
+    // });
+
+    // $.get('https://jisho.org/api/v1/search/words?keyword=日', function(data){
+    //     console.log(data);
+    // });
 
 });

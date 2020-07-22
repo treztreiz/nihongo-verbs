@@ -63,12 +63,18 @@
 #conjugaison #tense {
     background: #4e1840;
     color: white;
-    border-radius: 5px 0 0 5px;
 }
 
+#conjugaison #pos {
+    border-radius: 5px 0 0 5px;
+}
 #conjugaison #formality {
     border-radius: 0 5px 5px 0;
 }
+#conjugaison #formality, #conjugaison #pos {
+    width: 120px;
+}
+
 
 #verb.disabled:not([data-status]), #type.disabled {
     opacity : 0;
@@ -117,4 +123,16 @@ nav .logo {
     border-radius: 30px;
     padding-left: 20px;
     font-weight: bold;
+}
+
+::placeholder {
+    font-family: 'Nunito', sans-serif;
+}
+
+.nav-logo {
+    font-size: 2.1rem;
+}
+
+.nav-logo .logo-title {
+    font-size: 1.5rem;
 }

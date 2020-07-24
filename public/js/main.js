@@ -229,12 +229,13 @@ class Quiz {
         self.definitionEl.text('');
         $.post(Routing.generate('info', { verb: this.verb.kanji }), data => {
             var definitions = data.data[0].senses[0].english_definitions;
-            self.definitionEl.append('" ');
-            for( var i = 0; i < definitions.length; i++) {
-                self.definitionEl.append(definitions[i]);
-                if( i < definitions.length - 1 ) self.definitionEl.append(', ');
-            }
-            self.definitionEl.append(' "');
+            // self.definitionEl.append('" ');
+            // for( var i = 0; i < definitions.length; i++) {
+            //     self.definitionEl.append(definitions[i]);
+            //     if( i < definitions.length - 1 ) self.definitionEl.append(', ');
+            // }
+            // self.definitionEl.append(' "');
+            self.definitionEl.text('" ' + definitions[0] + ' "')
         }).fail( err => console.error(err) );
     }
 
@@ -269,7 +270,7 @@ class Quiz {
             // Tense
             icon = self.tenseEl.find('i');
             if( !icon.length || icon.data('current-tense') != self.tense ) {
-                self.tenseEl.html( '<i class="material-icons" data-current-tense="' + self.tense + '">access_time</i>' + self.tense.toLowerCase() );
+                self.tenseEl.html( '<i class="material-icons" data-current-tense="' + self.tense + '">live_help</i>' + self.tense.toLowerCase() );
                 self.toAnimate.push( self.tenseEl.find('i') );
                 // self.animateIcon( self.tenseEl.find('i') );
             }
@@ -277,7 +278,7 @@ class Quiz {
             // Negation
             icon = self.posEl.find('i');
             if( !icon.length || self.negated && !icon.hasClass('neg') || !self.negated && !icon.hasClass('pos') ) {
-                self.posEl.html( self.negated ? '<i class="material-icons neg">thumb_down</i> negative' : '<i class="material-icons pos">thumb_up</i> positive' );
+                self.posEl.html( self.negated ? '<i class="material-icons neg">do_not_disturb</i> negative' : '<i class="material-icons pos">check_circle</i> positive' );
                 //self.animateIcon( self.posEl.find('i') );
                 self.toAnimate.push( self.posEl.find('i') );
             }

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="{{ asset('css/main2.css') }}">
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
 </head>
 
 <body>
@@ -19,9 +21,9 @@
 
             <div id="menu">
                 <span class="japanese logo">活用</span>
-                <a class="btn btn-flat modal-trigger" href="#modal1"><i class="material-icons">settings</i></a>
-                <a class="btn btn-flat" id="study" href="#" target="_blank"><i class="material-icons">school</i></a>
-                <button class="btn btn-flat" id="speak"><i class="material-icons">volume_up</i></button>
+                <a class="btn btn-flat modal-trigger tooltipped" data-position="bottom" data-tooltip="settings" href="#modal1"><i class="material-icons">settings</i></a>
+                <a class="btn btn-flat tooltipped" data-position="bottom" data-tooltip="study" id="study" href="#" target="_blank"><i class="material-icons">school</i></a>
+                <button class="btn btn-flat tooltipped" data-position="bottom" data-tooltip="voice" id="speak"><i class="material-icons">volume_up</i></button>
             </div>
 
             <div id="score">

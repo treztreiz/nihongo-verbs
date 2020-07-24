@@ -9,6 +9,7 @@ class Quiz {
         this.audio = null;
         this.negated = false;
         this.verbs = verbs;
+        this.timeoutGenerate = null;
 
         this.inputForm = $('#form');
         this.input = $('#answer');
@@ -65,6 +66,8 @@ class Quiz {
         this.timerEl = $('.progress .determinate');
 
         this.initKushiro();
+
+        this.definitions = {};
 
     }
 
@@ -145,6 +148,7 @@ class Quiz {
             $(this).parent().css('opacity', 0).removeClass('empty-input');
             self.input.attr('disabled', false);
             self.input.focus();
+            clearInterval( self.timeoutGenerate );
             if( self.disabled ) self.generate();
         });
     }
@@ -156,6 +160,7 @@ class Quiz {
 
     generate() {
         this.disabled = false;
+        this.studyEl.tooltip('close');
         this.verbEl.attr('data-status', null);
         this.kanjiEl.attr('data-status', null);
         this.definitionEl.attr('data-status', null);
@@ -225,12 +230,14 @@ class Quiz {
                     self.toAnimate = [];
                 }
                 self.kanjiEl.removeClass('speaking');
-                self.input.focus();
+                if(!self.disabled) self.input.focus();
             },
         });
     }
 
     getDefinition() {
+        
+        if( this.verb.kanji in this.definitions ) return this.definitionEl.text('" ' + this.definitions[this.verb.kanji] + ' "');
         var self = this;
         self.definitionEl.text('');
         $.post(Routing.generate('info', { verb: this.verb.kanji }), data => {
@@ -241,7 +248,8 @@ class Quiz {
             //     if( i < definitions.length - 1 ) self.definitionEl.append(', ');
             // }
             // self.definitionEl.append(' "');
-            self.definitionEl.text('" ' + definitions[0] + ' "')
+            this.definitions[ this.verb.kanji ] = definitions[0];
+            self.definitionEl.text('" ' + definitions[0] + ' "');
         }).fail( err => console.error(err) );
     }
 
@@ -301,7 +309,7 @@ class Quiz {
                 self.toAnimate.push( self.formalityEL.find('i') );
             }
 
-        }, 500 );
+        }, 0 );
         
     }
 
@@ -349,7 +357,12 @@ class Quiz {
         this.successEl.text( this.score.success );
         this.input.val("");
         var self = this;
-        setTimeout( () => self.generate(), this.delay);
+        this.timeoutGenerate = setTimeout( () => {
+            self.generate();
+            self.input.attr('disabled', false);
+        }, this.delay);
+        this.input.attr('disabled',true);
+        this.continueEl.find('button').focus();
     }
 
     animateAward() {
@@ -360,6 +373,8 @@ class Quiz {
     }
 
     error() {
+        var self= this;
+        this.timeoutGenerate = setTimeout( () => self.studyEl.tooltip('open') , 4000 );
         this.verbEl.attr('data-status', 'error');
         this.kanjiEl.attr('data-status', 'error');
         this.definitionEl.attr('data-status', 'error');

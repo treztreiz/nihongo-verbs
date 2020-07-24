@@ -111,7 +111,7 @@ body:before {
 #conjugaison #tense {
     background: #4e1840;
     color: white;
-    min-width: 82px;
+    width: 100px;
 }
 
 #definition {

@@ -64,6 +64,12 @@ class Quiz {
         this.maxTime = 20000;
         this.timerEl = $('.progress .determinate');
 
+        this.initKushiro();
+
+    }
+
+    init() {
+        this.generate();
     }
 
     startTimer() {
@@ -239,18 +245,21 @@ class Quiz {
         }).fail( err => console.error(err) );
     }
 
+    initKushiro() {
+        self = this;
+        this.kuroshiro = new Kuroshiro();
+        this.kuroshiro.init(new KuromojiAnalyzer()).then( () => self.init() );
+    }
+
     convertKanji() {
+
         var self = this;
         this.disabled = true;
-        var kuroshiro = new Kuroshiro();
-        kuroshiro.init(new KuromojiAnalyzer())
-        .then(function () {
-            return kuroshiro.convert(self.answer, { to: "hiragana" });
-        })
-        .then(function(result){
+        this.kuroshiro.convert(self.answer, { to: "hiragana" }).then(function(result){
             self.conjugaison = result;
             self.disabled = false;
         });
+
     }
 
     displayVerb(result = false) {
@@ -383,23 +392,21 @@ $(function() {
         new Verb('買う', 'kau'),
         new Verb('行く', 'iku'),
         new Verb('起きる', 'okiru'),
-        // new Verb('切る', 'kiru'),
+        new Verb('切る', 'kiru'),
         new Verb('来る','kuru'),
         new Verb('集める','atsumeru'),
         new Verb('食べる', 'taberu'),
         new Verb('飲む', 'nomu'),
         new Verb('出かける', 'dekakeru'),
-        // new Verb('起こす','okosu'),
-        // new Verb('構える','kamaeru'),
+        new Verb('起こす','okosu'),
+        new Verb('構える','kamaeru'),
         new Verb('練る','neru'),
         new Verb('寝る','neru'),
-        // new Verb('蹴る','keru'),
+        new Verb('蹴る','keru'),
         new Verb('勉強する', 'benkyousuru')
     ];
 
-    var quiz = new Quiz(verbs);
-
-    quiz.generate();
+    new Quiz(verbs);
 
     $('#settings-furigana').change(function(){
         var furigana = $('#verb');

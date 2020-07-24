@@ -13,6 +13,15 @@ class MainController extends AbstractController
      */
     public function index()
     {
+        return $this->render('main/index2.html.twig', [
+            'controller_name' => 'MainController',
+        ]);
+    }
+    /**
+     * @Route("/2", name="main2")
+     */
+    public function index2()
+    {
         return $this->render('main/index.html.twig', [
             'controller_name' => 'MainController',
         ]);

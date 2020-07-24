@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&family=Nunito&display=swap');
+
+body {
+    background-color: #ececec;
+    background: url(../img/bg2.jpg) no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Nunito', sans-serif;
+    width: 100vw;
+    height: 100vh;
+}
+body:before {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #ecececcc;
+}
+
+.wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#verb-container {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    width: 100%;
+}
+
+.japanese {
+    font-family: 'Kosugi Maru', sans-serif;
+}
+
+#verb {
+    line-height: 5px;
+    color: #464646;
+}
+
+#kanji {
+    font-size: 5rem;
+    line-height: 110px;
+    color: #4e1840;
+    transition: transform .4s;
+    margin-top: -10px;
+}
+
+#kanji.speaking {
+    transform: scale(1.05);
+}
+
+#type {
+    font-weight: bold;
+    margin-top: -17px;
+    color: #464646;
+    margin-bottom: 9px;
+}
+
+#conjugaison {
+    margin-top: 10px;
+    display: inline-block;
+    font-size: 1rem;
+}
+
+#conjugaison > .conjugaison-infos {
+    box-shadow: 0 24px 38px 3px rgba(0,0,0,0.04), 0 9px 46px 8px rgba(0,0,0,0.02), 0 11px 15px -7px rgba(0,0,0,0.02);
+}
+
+#conjugaison > .conjugaison-infos > span {
+    padding: 5px 15px;
+    background: white;
+    display: inline-block;
+}
+
+#conjugaison i {
+    display: block;
+}
+
+.progress {
+    background-color : #cacaca;
+    margin-top: 15px;
+}
+.progress .determinate {
+    background-color:  #4e1840;
+}
+
+.neg {
+    color: #ff6666;
+}
+.pos {
+    color: #00c384;
+}
+
+#conjugaison #pos {
+    border-radius: 5px 0 0 5px;
+    width: 82px;
+}
+#conjugaison #formality {
+    border-radius: 0 5px 5px 0;
+    position: relative;
+    width: 82px;
+}
+#conjugaison #tense {
+    background: #4e1840;
+    color: white;
+    min-width: 82px;
+}
+
+#definition {
+    height: 40px;
+    max-width: 400px;
+    margin: auto;
+    color: #464646;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}
+
+#verb.disabled , #type.disabled, #definition.disabled {
+    display: none;
+}
+
+#success, [data-status="success"] {
+    color: #00c384!important;
+}
+#error, [data-status="error"] {
+    color: #ff6666!important;
+}
+
+#conjugaison i {
+    transition: transform .4s;
+}
+#conjugaison i.zoomed {
+    transform: scale(1.2);
+}
+
+#answer {
+    text-align : center;
+    border : 0;
+    box-shadow: none;
+    font-size: 3rem;
+    margin-top: 20px;
+    color: #4e1840;
+    margin-bottom: 0;
+    color: black;
+}
+#answer[disabled] {
+    color: #343434;
+}
+
+#score {
+    text-align: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    float: right;
+}
+
+#score > div {
+    display: inline-block;
+    text-align: center;
+    margin-left: 10px;
+}
+#score #success, #score #error {
+    font-size: 30px;
+}
+
+#menu {
+    margin-left: 10px;
+    margin-top: 10px;
+    display: inline-block;
+}
+.logo {
+    display: inline-block;
+    padding: 7px;
+    border-radius: 3px;
+    background: #4e1840;
+    color: white;
+    vertical-align: middle;
+}
+
+.btn-flat:hover, .btn-flat:focus {
+    background: none;
+}
+
+#continue {
+    opacity: 0;
+    height: 45px;
+    margin-top: 10px;
+}
+
+#continue.empty-input {
+    transform: translateY(-48px);
+}
+
+#continue button {
+    color: #9e9e9e;
+}
+#continue button:hover {
+    color: black;
+}
+
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    border: 2px solid #4e1840;
+    background-color: #4e1840;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+    background-color: #4d1940;
+}
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+    border: 2px solid #4d1940;
+}
+
+.modal h4 {
+    margin-bottom: 30px;
+}
+
+#award {
+    font-size: 1.5rem;
+    top: -60px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: top .5s;
+    display: none;
+    color: #00c384;
+}
+#award.animated {
+    top: -80px;
+}
+
+@media only screen and (max-width: 420px) {
+    #kanji {
+        font-size: 3.5rem;
+        line-height: 50px;
+        margin-top: 10px;
+        margin-bottom: 12px;
+    }
+    #answer {
+        margin-top: 5px;
+        font-size: 2.5rem;
+    }
+    #type {
+        margin-bottom: 10px;
+        margin-top: -10px;
+    }
+    #definition {
+        width: 80%;
+    }
+}

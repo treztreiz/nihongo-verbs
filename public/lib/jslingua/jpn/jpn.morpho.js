@@ -80,7 +80,7 @@
   aSound = "わらかさたまなばがじ";//verify ず
 
   const ruV5List = {
-    "い": 1, "き": 1, "け": 1, "し": 1, "じ": 1, "ね": 1, "び": 1, "上": 1, "下": 1, "与": 1, "中": 1,
+    "い": 1, /*"き": 1, "け": 1,*/ "し": 1, "じ": 1, "ね": 1, "び": 1, "上": 1, "下": 1, "与": 1, "中": 1,
     "乗": 1, "乘": 1, "亘": 1, "亙": 1, "交": 1, "代": 1, "伐": 1, "余": 1, "作": 1, "侍": 1, "依": 1,
     "侮": 1, "便": 1, "係": 1, "倚": 1, "借": 1, "偏": 1, "偽": 1, "傲": 1, "優": 1, "光": 1, "入": 1,
     "写": 1, "冠": 1, "凍": 1, "凝": 1, "凭": 1, "分": 1, "切": 1, "刈": 1, "判": 1, "到": 1, "刳": 1,
@@ -539,13 +539,17 @@
 
   Me.getVerbType = function(verb){
 
+    
+
     if (/(出来)る$/g.test(verb)) return VType.V1;
     if (/(す|く|来)る$/g.test(verb)) return VType.SK;
     let end = verb.slice(-1);
     let bend = verb.slice(-2,-1);
     if (end === "る") {
+
       //If not these before-endings, and hiragana, then it is Godan
-      if (! "いえしせちてにねびべみめりれ".includes(bend)) {
+      // if (! "いえしせちてにねびべみめりれ".includes(bend)) {
+      if (! "いえしせちてにねびべみめりれきけ".includes(bend)) {
         let utf8 = bend.charCodeAt(0);
         if (0x3040 <= utf8 && utf8 <= 0x309F) return VType.V5;
       }
@@ -553,6 +557,7 @@
       {//If it ends with these; it is Godan
         let v5r = /(甦え|蘇え|嘲け|ちぎ|かえ|横ぎ|阿ね|きい|かぎ|はい|はし|しゃべ|たべ|まえ)る$/g;
         if (v5r.test(verb) || ruV5List[bend]) return VType.V5;
+        //if (v5r.test(verb)) return VType.V5;
       }
 
       //Otherwise, it is Ichidan

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japanese conjugation quizz</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ asset('css/main2.css') }}">
+
+</head>
+
+<body>
+
+    <label for="answer">
+        <div class="wrapper">
+
+            <div id="menu">
+                <span class="japanese logo">活用</span>
+                <a class="btn btn-flat modal-trigger" href="#modal1"><i class="material-icons">settings</i></a>
+                <a class="btn btn-flat" id="study" href="#" target="_blank"><i class="material-icons">school</i></a>
+                <button class="btn btn-flat" id="speak"><i class="material-icons">volume_up</i></button>
+            </div>
+
+            <div id="score">
+                <div><span class="japanese">正解</span>
+                    <div id="success">0</div>
+                </div>
+                <div><span class="japanese">不正解</span>
+                    <div id="error">0</div>
+                </div>
+            </div>
+
+            <div id="verb-container">
+                <div id="award">+1</div>
+                <div id="verb" data-status class="japanese"></div>
+                <div id="kanji" class="japanese"></div>
+                <div id="type"></div>
+                <div id="definition"></div>
+                <div id="conjugaison">
+                    <div class="conjugaison-infos"><span id="pos"></span><span id="tense"></span><span id="formality"></span></div>
+                    <div class="progress">
+                         <div class="determinate" style="width: 0%"></div>
+                    </div>
+                </div>
+                <form id="form"><input id="answer" type="text" class="japanese"></form>
+                <div id="continue"><button class="btn btn-flat">Continue</button></div>
+            </div>
+
+        </div>
+    </label>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Settings</h4>
+
+            <div>Display :</div>
+            <p>
+                <div>
+                    <label>
+                        <input id="settings-furigana" class="filled-in" type="checkbox" />
+                        <span>Hide furigana</span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input id="settings-type" class="filled-in" type="checkbox" />
+                        <span>Hide verb type</span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input id="settings-definition" class="filled-in" type="checkbox" />
+                        <span>Hide definition</span>
+                    </label>
+                </div>
+            </p>
+
+            <div>Formality :</div>
+            <p>
+                <label>
+                    <input name="formality" type="radio" checked data-formality="0" />
+                    <span>Both</span>
+                </label>
+                <label>
+                    <input name="formality" type="radio"  data-formality="1" />
+                    <span>Plain</span>
+                </label>
+                <label>
+                    <input name="formality" type="radio"  data-formality="2" />
+                    <span>Polite</span>
+                </label>
+            </p>
+
+            <div>Negation :</div>
+            <p>
+                <label>
+                    <input name="negation" type="radio" checked data-negation="0" />
+                    <span>Both</span>
+                </label>
+                <label>
+                    <input name="negation" type="radio" data-negation="1" />
+                    <span>Positive</span>
+                </label>
+                <label>
+                    <input name="negation" type="radio" data-negation="2" />
+                    <span>Negative</span>
+                </label>
+            </p>
+
+            <div>Tenses :</div>
+            <p>
+                <div>
+                    <label>
+                        <input class="filled-in" type="checkbox" checked data-tense="pres" />
+                        <span>Present</span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input class="filled-in" type="checkbox" checked data-tense="past" />
+                        <span>Past</span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input class="filled-in" type="checkbox" checked data-tense="vol" />
+                        <span>Volitional</span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input class="filled-in" type="checkbox" data-tense="imp" />
+                        <span>Imperative</span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input class="filled-in" type="checkbox" data-tense="prov" />
+                        <span>Conditional</span>
+                    </label>
+                </div>
+            </p>
+
+        </div>
+    </div>
+
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ABOtKkkc"></script>
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+    <!-- https://wanakana.com/ -->
+    <script src="https://unpkg.com/wanakana@4.0.2/umd/wanakana.min.js"></script>
+
+    <script type="text/javascript" src="{{ asset('lib/jslingua/jslingua.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/jslingua/morpho.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/jslingua/jpn/jpn.morpho.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('lib/kuroshiro/kuroshiro.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/kuroshiro/kuroshiro-analyzer.min.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+
+</body>
+
+</html>
